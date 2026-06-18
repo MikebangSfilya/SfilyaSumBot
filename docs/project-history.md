@@ -23,4 +23,4 @@ The public repository is intended to be a maintainable example of a Telegram sum
 - LLM fallback/model selection logic;
 - monitoring and reporting utilities.
 
-The old private Git history may contain development-only commits and removed private artifacts. For public use, prefer a fresh repository initialized from the sanitized snapshot.
+Public development starts from the sanitized snapshot; earlier private iteration is summarized here instead of being exposed as raw commit history.

@@ -63,8 +63,6 @@ Main variables in `.env`:
 | `DAILY_DIGEST_*` | Optional | Daily digest scheduler settings. |
 | `METRICS_*`, `TRACING_*` | Optional | Monitoring and tracing settings. |
 
-Never commit real `.env` files. If this repository was private before publishing, rotate every token that was ever committed.
-
 ## Development
 
 ```bash

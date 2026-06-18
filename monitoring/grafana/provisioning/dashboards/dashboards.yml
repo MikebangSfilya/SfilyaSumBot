@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: "sumbot-default"
+    orgId: 1
+    folder: "SumBot"
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

@@ -1,0 +1,179 @@
+services:
+  bot:
+    build: .
+    working_dir: /app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - .:/app
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      - TG_TOKEN=${TG_TOKEN}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - OPENROUTER_MODEL=${OPENROUTER_MODEL:-deepseek/deepseek-v4-flash}
+      - OPENROUTER_MODELS=${OPENROUTER_MODELS:-}
+      - DEEPSEEK_MODELS=${DEEPSEEK_MODELS:-deepseek-v4-pro}
+      - LLM_DEFAULT_MODEL_ID=${LLM_DEFAULT_MODEL_ID:-}
+      - CHUNK_SUMMARY_MODEL_ID=${CHUNK_SUMMARY_MODEL_ID:-}
+      - REDIS_HOST=redis
+      - DATABASE_URL=${DATABASE_URL}
+      - DEBUG_USER_ID=${DEBUG_USER_ID:-0}
+      - RATE_LIMIT_EXEMPT_USER_IDS=${RATE_LIMIT_EXEMPT_USER_IDS:-}
+      - ANALYTICS_CHAT_ID=${ANALYTICS_CHAT_ID:-}
+      - SUMBOT_ENV_FILE=${SUMBOT_ENV_FILE:-.env}
+      - SUMMARY_EXPERIMENT_NOTICE=${SUMMARY_EXPERIMENT_NOTICE:-}
+      - DAILY_DIGEST_ENABLED=${DAILY_DIGEST_ENABLED:-false}
+      - DAILY_DIGEST_DEFAULT_ENABLED=${DAILY_DIGEST_DEFAULT_ENABLED:-false}
+      - DAILY_DIGEST_TIME=${DAILY_DIGEST_TIME:-20:00}
+      - DAILY_DIGEST_TIMEZONE=${DAILY_DIGEST_TIMEZONE:-Europe/Moscow}
+      - DAILY_DIGEST_JITTER_SECONDS=${DAILY_DIGEST_JITTER_SECONDS:-30}
+      - DAILY_DIGEST_MANUAL_SUPPRESSION_SECONDS=${DAILY_DIGEST_MANUAL_SUPPRESSION_SECONDS:-3600}
+      - ONBOARDING_READY_MESSAGE_COUNT=${ONBOARDING_READY_MESSAGE_COUNT:-10}
+      - ONBOARDING_PENDING_TTL_SECONDS=${ONBOARDING_PENDING_TTL_SECONDS:-604800}
+      - METRICS_ENABLED=${METRICS_ENABLED:-true}
+      - METRICS_HOST=0.0.0.0
+      - METRICS_PORT=8000
+      - TRACING_ENABLED=${TRACING_ENABLED:-false}
+      - TRACING_SERVICE_NAME=${TRACING_SERVICE_NAME:-sumbot}
+      - TRACING_OTLP_ENDPOINT=${TRACING_OTLP_ENDPOINT:-http://jaeger:4318/v1/traces}
+      - TRACING_SAMPLE_RATIO=${TRACING_SAMPLE_RATIO:-1.0}
+      - CHUNK_SUMMARY_TIMEOUT_SECONDS=${CHUNK_SUMMARY_TIMEOUT_SECONDS:-30}
+      - CHUNK_WORKER_POLL_TIMEOUT_SECONDS=${CHUNK_WORKER_POLL_TIMEOUT_SECONDS:-5}
+    restart: unless-stopped
+    command: sh -c "alembic -c /app/alembic.ini upgrade head && python bot.py"
+    expose:
+      - "8000"
+
+  chunk-worker:
+    build: .
+    working_dir: /app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - .:/app
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      - TG_TOKEN=${TG_TOKEN}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - OPENROUTER_MODEL=${OPENROUTER_MODEL:-deepseek/deepseek-v4-flash}
+      - OPENROUTER_MODELS=${OPENROUTER_MODELS:-}
+      - DEEPSEEK_MODELS=${DEEPSEEK_MODELS:-deepseek-v4-pro}
+      - LLM_DEFAULT_MODEL_ID=${LLM_DEFAULT_MODEL_ID:-}
+      - CHUNK_SUMMARY_MODEL_ID=${CHUNK_SUMMARY_MODEL_ID:-}
+      - REDIS_HOST=redis
+      - DATABASE_URL=${DATABASE_URL}
+      - RATE_LIMIT_EXEMPT_USER_IDS=${RATE_LIMIT_EXEMPT_USER_IDS:-}
+      - SUMBOT_ENV_FILE=${SUMBOT_ENV_FILE:-.env}
+      - SUMMARY_EXPERIMENT_NOTICE=${SUMMARY_EXPERIMENT_NOTICE:-}
+      - METRICS_ENABLED=false
+      - TRACING_ENABLED=${TRACING_ENABLED:-false}
+      - TRACING_SERVICE_NAME=${TRACING_SERVICE_NAME:-sumbot}
+      - TRACING_OTLP_ENDPOINT=${TRACING_OTLP_ENDPOINT:-http://jaeger:4318/v1/traces}
+      - TRACING_SAMPLE_RATIO=${TRACING_SAMPLE_RATIO:-1.0}
+      - CHUNK_SUMMARY_TIMEOUT_SECONDS=${CHUNK_SUMMARY_TIMEOUT_SECONDS:-30}
+      - CHUNK_WORKER_POLL_TIMEOUT_SECONDS=${CHUNK_WORKER_POLL_TIMEOUT_SECONDS:-5}
+    restart: unless-stopped
+    command: python -m sumbot.chunk_worker
+
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sumbot123}
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    depends_on:
+      - bot
+      - redis
+      - postgres
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:11.2.2
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "127.0.0.1:3300:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.76.0
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "127.0.0.1:16686:16686"
+    expose:
+      - "4318"
+    restart: unless-stopped
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.62.0
+    environment:
+      - REDIS_ADDR=redis://redis:6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.16.0
+    environment:
+      - DATA_SOURCE_NAME=postgresql://postgres:${POSTGRES_PASSWORD:-sumbot123}@postgres:5432/postgres?sslmode=disable
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  redis-data:
+  pgdata:
+  grafana-data:

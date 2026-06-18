@@ -1,0 +1,79 @@
+version: "3"
+
+vars:
+  ENV_FILE: .env
+  PROJECT: sumbot
+  COMPOSE: docker compose --env-file {{.ENV_FILE}} -p {{.PROJECT}}
+  PY_FILES: bot.py sumbot tools anonymizer.py check_models.py
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  sync:
+    desc: Install Python dependencies with uv
+    cmds:
+      - uv sync
+
+  test:
+    desc: Run pytest locally
+    cmds:
+      - uv run pytest
+
+  check:
+    desc: Compile Python sources and run tests
+    cmds:
+      - PYTHONPYCACHEPREFIX=/tmp/sumbot-pycache uv run python -m compileall {{.PY_FILES}}
+      - uv run pytest
+
+  _require-env:
+    internal: true
+    preconditions:
+      - sh: test -f {{.ENV_FILE}}
+        msg: "Copy .env.example to .env and fill in local credentials first."
+
+  up:
+    desc: Start the local Docker Compose stack
+    deps: [_require-env]
+    cmds:
+      - "{{.COMPOSE}} up -d --build"
+
+  down:
+    desc: Stop the local Docker Compose stack
+    cmds:
+      - "{{.COMPOSE}} down"
+
+  ps:
+    desc: Show local Docker Compose services
+    cmds:
+      - "{{.COMPOSE}} ps"
+
+  logs:bot:
+    desc: Follow bot logs
+    cmds:
+      - "{{.COMPOSE}} logs -f bot"
+
+  migrate:
+    desc: Apply Alembic migrations inside the bot container
+    deps: [_require-env]
+    cmds:
+      - "{{.COMPOSE}} exec bot alembic upgrade head"
+
+  analytics:export:
+    desc: Export analytics JSON files inside the bot container
+    deps: [_require-env]
+    cmds:
+      - "{{.COMPOSE}} exec bot python -m tools.analytics.export_logs"
+
+  analytics:cleanup:
+    desc: Prune old analytics rows inside the bot container
+    deps: [_require-env]
+    cmds:
+      - "{{.COMPOSE}} exec bot python -m tools.analytics.cleanup_analytics"
+
+  analytics:report:
+    desc: Build a local analytics report
+    cmds:
+      - uv run python -m tools.analytics.analytics_report --period "{{.PERIOD | default "30d"}}"

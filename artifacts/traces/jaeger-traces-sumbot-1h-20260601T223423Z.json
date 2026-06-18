@@ -1,0 +1,827 @@
+{
+  "exported_at": "2026-06-01T22:34:23.723251+00:00",
+  "jaeger": {
+    "data": [
+      {
+        "processes": {
+          "p1": {
+            "serviceName": "sumbot",
+            "tags": [
+              {
+                "key": "telemetry.sdk.language",
+                "type": "string",
+                "value": "python"
+              },
+              {
+                "key": "telemetry.sdk.name",
+                "type": "string",
+                "value": "opentelemetry"
+              },
+              {
+                "key": "telemetry.sdk.version",
+                "type": "string",
+                "value": "1.42.1"
+              }
+            ]
+          }
+        },
+        "spans": [
+          {
+            "duration": 780,
+            "logs": [],
+            "operationName": "summary.load_prompt",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "3d4f0d6b82e14190",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "fddd95325a114725",
+            "startTime": 1780353034678407,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "summary.system_prompt_chars",
+                "type": "int64",
+                "value": 6218
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 216496,
+            "logs": [],
+            "operationName": "summary.choose_dynamic_example",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "3d4f0d6b82e14190",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "5539370b0d3ddae7",
+            "startTime": 1780353034679381,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "summary.dynamic_example.selected",
+                "type": "bool",
+                "value": true
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 1430,
+            "logs": [],
+            "operationName": "summary.load_generation_settings",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "3d4f0d6b82e14190",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "83d7c7a81390bd19",
+            "startTime": 1780353034896172,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "summary.max_output_tokens",
+                "type": "int64",
+                "value": 2400
+              },
+              {
+                "key": "summary.max_output_tokens.auto",
+                "type": "bool",
+                "value": false
+              },
+              {
+                "key": "summary.model_chain.ids",
+                "type": "string",
+                "value": "[\"deepseek:deepseek-v4-pro\",\"openrouter:deepseek/deepseek-v4-flash\"]"
+              },
+              {
+                "key": "summary.model_chain.length",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "summary.model_chain.providers",
+                "type": "string",
+                "value": "[\"DeepSeek API\",\"OpenRouter\"]"
+              },
+              {
+                "key": "summary.thinking_mode",
+                "type": "string",
+                "value": "enabled"
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 47814870,
+            "logs": [],
+            "operationName": "llm.chat_completion",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "76a88e6ed84d29f7",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "e2565a1b9371e491",
+            "startTime": 1780353034916615,
+            "tags": [
+              {
+                "key": "llm.attempt",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "llm.elapsed_seconds",
+                "type": "float64",
+                "value": 47.81374643894378
+              },
+              {
+                "key": "llm.finish_reason",
+                "type": "string",
+                "value": "stop"
+              },
+              {
+                "key": "llm.input_tokens",
+                "type": "int64",
+                "value": 12434
+              },
+              {
+                "key": "llm.max_attempts",
+                "type": "int64",
+                "value": 4
+              },
+              {
+                "key": "llm.max_output_tokens",
+                "type": "int64",
+                "value": 2400
+              },
+              {
+                "key": "llm.model",
+                "type": "string",
+                "value": "deepseek-v4-pro"
+              },
+              {
+                "key": "llm.output_tokens",
+                "type": "int64",
+                "value": 2340
+              },
+              {
+                "key": "llm.output_tokens_per_second",
+                "type": "float64",
+                "value": 48.9399
+              },
+              {
+                "key": "llm.provider",
+                "type": "string",
+                "value": "DeepSeek API"
+              },
+              {
+                "key": "llm.reasoning_chars",
+                "type": "int64",
+                "value": 3870
+              },
+              {
+                "key": "llm.reasoning_tokens",
+                "type": "int64",
+                "value": 1440
+              },
+              {
+                "key": "llm.request_timeout_seconds",
+                "type": "float64",
+                "value": 55
+              },
+              {
+                "key": "llm.result",
+                "type": "string",
+                "value": "success"
+              },
+              {
+                "key": "llm.summary_chars",
+                "type": "int64",
+                "value": 2392
+              },
+              {
+                "key": "llm.total_tokens",
+                "type": "int64",
+                "value": 14774
+              },
+              {
+                "key": "llm.total_tokens_per_second",
+                "type": "float64",
+                "value": 308.9906
+              },
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.llm"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "summary.anonymized_chars",
+                "type": "int64",
+                "value": 21208
+              },
+              {
+                "key": "summary.context.merged",
+                "type": "int64",
+                "value": 35
+              },
+              {
+                "key": "summary.context.raw_messages",
+                "type": "int64",
+                "value": 500
+              },
+              {
+                "key": "summary.context.turns",
+                "type": "int64",
+                "value": 465
+              },
+              {
+                "key": "summary.dynamic_example.enabled",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "summary.input_chars_per_token",
+                "type": "float64",
+                "value": 1.7056
+              },
+              {
+                "key": "summary.output_chars_per_token",
+                "type": "float64",
+                "value": 1.0222
+              },
+              {
+                "key": "summary.system_prompt_chars",
+                "type": "int64",
+                "value": 10300
+              },
+              {
+                "key": "summary.thinking_mode",
+                "type": "string",
+                "value": "enabled"
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 47834091,
+            "logs": [],
+            "operationName": "summary.generate_with_fallbacks",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "3d4f0d6b82e14190",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "76a88e6ed84d29f7",
+            "startTime": 1780353034897868,
+            "tags": [
+              {
+                "key": "llm.attempt",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "llm.elapsed_seconds",
+                "type": "float64",
+                "value": 47.81374643894378
+              },
+              {
+                "key": "llm.finish_reason",
+                "type": "string",
+                "value": "stop"
+              },
+              {
+                "key": "llm.input_tokens",
+                "type": "int64",
+                "value": 12434
+              },
+              {
+                "key": "llm.model",
+                "type": "string",
+                "value": "deepseek-v4-pro"
+              },
+              {
+                "key": "llm.output_tokens",
+                "type": "int64",
+                "value": 2340
+              },
+              {
+                "key": "llm.provider",
+                "type": "string",
+                "value": "DeepSeek API"
+              },
+              {
+                "key": "llm.reasoning_tokens",
+                "type": "int64",
+                "value": 1440
+              },
+              {
+                "key": "llm.summary_chars",
+                "type": "int64",
+                "value": 2392
+              },
+              {
+                "key": "llm.total_tokens",
+                "type": "int64",
+                "value": 14774
+              },
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "summary.context.merged",
+                "type": "int64",
+                "value": 35
+              },
+              {
+                "key": "summary.context.raw_messages",
+                "type": "int64",
+                "value": 500
+              },
+              {
+                "key": "summary.context.rendered_chars",
+                "type": "int64",
+                "value": 21208
+              },
+              {
+                "key": "summary.context.turns",
+                "type": "int64",
+                "value": 465
+              },
+              {
+                "key": "summary.fallback.chain_index",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "summary.fallback.degradation_level",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "summary.fallback.elapsed_seconds",
+                "type": "float64",
+                "value": 47.83372635894921
+              },
+              {
+                "key": "summary.fallback.last_llm_elapsed_seconds",
+                "type": "float64",
+                "value": 47.81592316692695
+              },
+              {
+                "key": "summary.fallback.llm_attempts",
+                "type": "int64",
+                "value": 1
+              },
+              {
+                "key": "summary.fallback.model_count",
+                "type": "int64",
+                "value": 2
+              },
+              {
+                "key": "summary.fallback.planned_attempts",
+                "type": "int64",
+                "value": 6
+              },
+              {
+                "key": "summary.fallback.result",
+                "type": "string",
+                "value": "success"
+              },
+              {
+                "key": "summary.fallback.total_timeout_seconds",
+                "type": "float64",
+                "value": 90
+              },
+              {
+                "key": "summary.fallback.used_fallback",
+                "type": "bool",
+                "value": false
+              },
+              {
+                "key": "summary.fallback.variant_count",
+                "type": "int64",
+                "value": 3
+              },
+              {
+                "key": "summary.fallback.winning_model_id",
+                "type": "string",
+                "value": "deepseek:deepseek-v4-pro"
+              },
+              {
+                "key": "summary.fallback.winning_provider",
+                "type": "string",
+                "value": "DeepSeek API"
+              },
+              {
+                "key": "summary.result",
+                "type": "string",
+                "value": "success"
+              },
+              {
+                "key": "summary.result.present",
+                "type": "bool",
+                "value": true
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 222631,
+            "logs": [],
+            "operationName": "telegram.send_summary",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "3d4f0d6b82e14190",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "409fd0687eff3ba8",
+            "startTime": 1780353082733169,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 22273,
+            "logs": [],
+            "operationName": "db.save_summary_analytics",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "3d4f0d6b82e14190",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "1daf926a64fd2788",
+            "startTime": 1780353082956090,
+            "tags": [
+              {
+                "key": "llm.elapsed_seconds",
+                "type": "float64",
+                "value": 47.81374643894378
+              },
+              {
+                "key": "llm.finish_reason",
+                "type": "string",
+                "value": "stop"
+              },
+              {
+                "key": "llm.input_tokens",
+                "type": "int64",
+                "value": 12434
+              },
+              {
+                "key": "llm.model",
+                "type": "string",
+                "value": "deepseek-v4-pro"
+              },
+              {
+                "key": "llm.output_tokens",
+                "type": "int64",
+                "value": 2340
+              },
+              {
+                "key": "llm.provider",
+                "type": "string",
+                "value": "DeepSeek API"
+              },
+              {
+                "key": "llm.total_tokens",
+                "type": "int64",
+                "value": 14774
+              },
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 16821,
+            "logs": [],
+            "operationName": "summary.fetch_history",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "3d4f0d6b82e14190",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "35d582e0e97bdd8f",
+            "startTime": 1780353034514771,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "summary.limit_messages",
+                "type": "int64",
+                "value": 0
+              },
+              {
+                "key": "summary.source_messages",
+                "type": "int64",
+                "value": 500
+              },
+              {
+                "key": "summary.source_replies",
+                "type": "int64",
+                "value": 349
+              },
+              {
+                "key": "summary.source_text_chars",
+                "type": "int64",
+                "value": 11069
+              },
+              {
+                "key": "summary.source_timespan_seconds",
+                "type": "int64",
+                "value": 6583
+              },
+              {
+                "key": "summary.source_unique_authors",
+                "type": "int64",
+                "value": 14
+              },
+              {
+                "key": "summary.time_limit_seconds",
+                "type": "int64",
+                "value": 86400
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 16550,
+            "logs": [],
+            "operationName": "summary.prepare_context",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "76a88e6ed84d29f7",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "bc1b6a24db2e456c",
+            "startTime": 1780353034899037,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "summary.candidate_messages",
+                "type": "int64",
+                "value": 500
+              },
+              {
+                "key": "summary.candidate_replies",
+                "type": "int64",
+                "value": 349
+              },
+              {
+                "key": "summary.candidate_text_chars",
+                "type": "int64",
+                "value": 11069
+              },
+              {
+                "key": "summary.candidate_timespan_seconds",
+                "type": "int64",
+                "value": 6583
+              },
+              {
+                "key": "summary.candidate_unique_authors",
+                "type": "int64",
+                "value": 14
+              },
+              {
+                "key": "summary.context.merge_ratio",
+                "type": "float64",
+                "value": 0.07
+              },
+              {
+                "key": "summary.context.merged",
+                "type": "int64",
+                "value": 35
+              },
+              {
+                "key": "summary.context.raw_messages",
+                "type": "int64",
+                "value": 500
+              },
+              {
+                "key": "summary.context.rendered_chars",
+                "type": "int64",
+                "value": 21208
+              },
+              {
+                "key": "summary.context.turns",
+                "type": "int64",
+                "value": 465
+              },
+              {
+                "key": "summary.context_v2_enabled",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "key": "summary.degradation_level",
+                "type": "int64",
+                "value": 1
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 707,
+            "logs": [],
+            "operationName": "summary.prepare_final_message",
+            "processID": "p1",
+            "references": [
+              {
+                "refType": "CHILD_OF",
+                "spanID": "3d4f0d6b82e14190",
+                "traceID": "9b427632b1eff32d9d20600c7e684ab2"
+              }
+            ],
+            "spanID": "af117cf037a9a96d",
+            "startTime": 1780353082732371,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "summary.final_text_chars",
+                "type": "int64",
+                "value": 2620
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          },
+          {
+            "duration": 48465266,
+            "logs": [],
+            "operationName": "telegram.summary",
+            "processID": "p1",
+            "references": [],
+            "spanID": "3d4f0d6b82e14190",
+            "startTime": 1780353034514369,
+            "tags": [
+              {
+                "key": "otel.scope.name",
+                "type": "string",
+                "value": "sumbot.telegram_handlers.summary"
+              },
+              {
+                "key": "span.kind",
+                "type": "string",
+                "value": "internal"
+              },
+              {
+                "key": "telegram.chat_id",
+                "type": "int64",
+                "value": -1001529120629
+              },
+              {
+                "key": "telegram.chat_type",
+                "type": "string",
+                "value": "supergroup"
+              },
+              {
+                "key": "telegram.user_id",
+                "type": "int64",
+                "value": 680806786
+              }
+            ],
+            "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+            "warnings": null
+          }
+        ],
+        "traceID": "9b427632b1eff32d9d20600c7e684ab2",
+        "warnings": null
+      }
+    ],
+    "errors": null,
+    "limit": 0,
+    "offset": 0,
+    "total": 0
+  },
+  "query": {
+    "jaeger_url": "http://127.0.0.1:16686",
+    "limit": 1,
+    "lookback": "1h",
+    "operation": "",
+    "service": "sumbot",
+    "trace_id": ""
+  },
+  "source_url": "http://127.0.0.1:16686/api/traces?service=sumbot&lookback=1h&limit=1",
+  "trace_count": 1
+}

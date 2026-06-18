@@ -1,0 +1,2 @@
+"""SumBot application package."""
+
